@@ -237,9 +237,9 @@ API ENDPOINTS
    Headers:  Authorization ${Bearer}
    Content-Type: json
    
-      ```
+    ```
    Response:  
-      ```json
+```json
     {
        "result_code": 0,
        "message": "Events retrieved successfully",
@@ -258,9 +258,9 @@ API ENDPOINTS
    
       ]
         }
-      ```  
+```  
 
-   8. RSVP An event
+8. RSVP An event
 
    Endpoint: /api/events/event-rsvp/  
    Method: POST  
@@ -274,7 +274,7 @@ API ENDPOINTS
       }
       ```
    Response:  
-      ```json
+   ```json
     {
     "result_code": 0,
     "message": "You have successfully registered for this event",
@@ -288,7 +288,7 @@ API ENDPOINTS
         "registered_on": "2025-07-25T12:48:57.454751Z"
           }
      }
-      ```  
+    ```  
 
 
 
