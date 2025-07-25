@@ -122,10 +122,10 @@ class EventDeleteAPIView(APIView):
 """To update the approval status of the registered attendees"""
 class EventRegistrationApprovalAPIView(APIView):
     permission_classes = [HasRolePermission, IsAuthenticated]
-    required_permission = 'approve_attendees'
+    required_permission = 'update_event'
 
     def patch(self,request,id):
-        event = get_object_or_404(Events, id=id)        
+        event = get_object_or_404(EventRegistration, id=id)        
         serializer = EventRegistrationStatusUpdateSerializer(event,data=request.data, partial=True)
 
         if serializer.is_valid():
