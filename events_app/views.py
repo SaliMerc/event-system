@@ -78,7 +78,7 @@ class EventCreateAPIView(APIView):
                 'data': serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
     
-"""To the updating of events"""
+"""For updating of events"""
 class EventUpdateAPIView(APIView):
     permission_classes = [HasRolePermission, IsAuthenticated]
     required_permission = 'update_event'
@@ -100,7 +100,7 @@ class EventUpdateAPIView(APIView):
                 'data': serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
 
-"""To the deletion of events"""
+"""For the deletion of events"""
 class EventDeleteAPIView(APIView):
     permission_classes = [HasRolePermission, IsAuthenticated]
     required_permission = 'delete_event'
@@ -119,6 +119,27 @@ class EventDeleteAPIView(APIView):
                     'message': 'The event does not exist'
                 }, status=status.HTTP_400_BAD_REQUEST)
 
+"""To update the approval status of the registered attendees"""
+class EventRegistrationApprovalAPIView(APIView):
+    permission_classes = [HasRolePermission, IsAuthenticated]
+    required_permission = 'approve_attendees'
+
+    def patch(self,request,id):
+        event = get_object_or_404(Events, id=id)        
+        serializer = EventRegistrationStatusUpdateSerializer(event,data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()  
+            return Response({
+                'result_code':0,
+                'message': 'Registration status updated successfully',
+                'data': serializer.data
+            }, status=status.HTTP_200_OK)
+        return Response({
+                'result_code':1,
+                'message': 'The registration status could not be updated',
+                'data': serializer.errors
+            }, status=status.HTTP_400_BAD_REQUEST)
 
 """Funtionalities for RSVPing events"""
 class EventRegisterAPIView(APIView):

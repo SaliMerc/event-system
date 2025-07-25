@@ -7,6 +7,7 @@ class EventOrganiserRole(AbstractUserRole):
         'view_all_events': True,
         'update_event': True,
         'delete_event': True,
+        'approve_attendees':True,
     }
 
 class EventAttendeeRole(AbstractUserRole):

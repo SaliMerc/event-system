@@ -34,3 +34,9 @@ class EventsRegistrationSerializer(serializers.ModelSerializer):
             validated_data['event_attendee'] = request.user
             validated_data['approval_status'] = 'not_approved'
         return super().create(validated_data)
+    
+class EventRegistrationStatusUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = EventRegistration
+        fields = ['id','event_attendee','approval_status'] 
+        read_only_fields = ['event_attendee']
