@@ -123,11 +123,11 @@ API ENDPOINTS
            "role": "string",
        }
       ```
-2. Create event
+3. Create event
 
    Endpoint: /api/events/create-event/  
    Method: POST  
-   Headers:  
+   Headers:  Authorization ${Bearer}
    Content-Type: form-data  
    
    Request Body:  
@@ -156,6 +156,139 @@ API ENDPOINTS
         "created_at": "2025-07-25T13:29:03.653890Z"
     }
 }
+      ```
+
+4. Update an event
+
+   Endpoint: /api/events/update-event/id/  
+   Method: PATCH 
+   Headers:  Authorization ${Bearer}
+   Content-Type: form-data  
+   
+   Request Body:  
+      ```json
+      {
+        "event_name": "Parteeeey",
+        "event_location": "Nairobi",
+        "event_date": "2025-08-11T02:03:46.145000Z",
+        "available_seats": 40,
+      }
+      ```
+   Response:  
+      ```json
+       {
+    "result_code": 0,
+    "message": "Event updated successfully",
+    "data": {
+        "id": 7,
+        "event_name": "Parteeeey",
+        "event_location": "Nairobi",
+        "event_date": "2025-08-11T02:03:46.145000Z",
+        "event_organiser_name": "katy perry",
+        "available_seats": 40,
+        "created_at": "2025-07-25T13:29:03.653890Z"
+    }
+}
+      ```
+5. Delete an event
+
+   Endpoint: /api/events/delete-event/id/  
+   Method: DELETE  
+   Headers:  Authorization ${Bearer}
+   Content-Type: form-data  
+    
+   Response:  
+      ```json
+       {
+    "result_code": 0,
+    "message": "Event deleted successfully"
+}
+      ```
+
+6. Approve a registered attendee
+
+   Endpoint: /api/events/event-registration-approval/id/  
+   Method: PATCH 
+   Headers:  Authorization ${Bearer}
+   Content-Type: form-data  
+   
+   Request Body:  
+      ```json
+      {
+        "approval_status": "approved",
+      }
+      ```
+   Response:  
+      ```json
+    {
+    "result_code": 0,
+    "message": "Registration status updated successfully",
+    "data": {
+        "id": 4,
+        "event_attendee": 8,
+        "approval_status": "approved"
+    }
+} 
+      ```
+
+7. View all events
+
+   Endpoint: /api/events/event-list/  
+   Method: GET 
+   Headers:  Authorization ${Bearer}
+   Content-Type: json
+   
+      ```
+   Response:  
+      ```json
+    {
+       "result_code": 0,
+       "message": "Events retrieved successfully",
+       "data": 
+      [
+        
+           {
+               "id": 4,
+               "event_name": "Parteeeey",
+               "event_location": "Nairobi",
+               "event_date": "2025-08-11T02:03:46.145000Z",
+               "event_organiser_name": "katy perry",
+               "available_seats": 40,
+               "created_at": "2025-07-25T11:57:11.753815Z"
+           }
+   
+      ]
+        }
+      ```
+
+   3. RSVP An event
+
+   Endpoint: /api/events/event-rsvp/  
+   Method: POST  
+   Headers:  Authorization ${Bearer}
+   Content-Type: form-data  
+   
+   Request Body:  
+      ```json
+      {
+        "event": "integer",
+      }
+      ```
+   Response:  
+      ```json
+    {
+    "result_code": 0,
+    "message": "You have successfully registered for this event",
+    "seats_left": 36,
+    "data": {
+        "id": 23,
+        "event": 4,
+        "event_name": "Parteeeey",
+        "event_attendee": 8,
+        "approval_status": "not_approved",
+        "registered_on": "2025-07-25T12:48:57.454751Z"
+    }
+   }
       ```
 
 
