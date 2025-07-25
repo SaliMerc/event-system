@@ -7,7 +7,7 @@ urlpatterns = [
     path('delete-event/<int:id>/', EventDeleteAPIView.as_view(), name='delete-event'),
     path('event-list/', EventListAPIView.as_view(), name='event-list'),
 
-    path('event-registration-approval/', EventRegistrationApprovalAPIView.as_view(), name='event-registration-approval'),
+    path('event-registration-approval/<int:id>/', EventRegistrationApprovalAPIView.as_view(), name='event-registration-approval'),
 
     path('event-rsvp/', EventRegisterAPIView.as_view(), name='event-rsvp'),
 ]
