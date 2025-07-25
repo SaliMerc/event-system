@@ -21,9 +21,9 @@ class EventsSerializer(serializers.ModelSerializer):
 class EventsRegistrationSerializer(serializers.ModelSerializer):
     event_name=serializers.SerializerMethodField()
     class Meta:
-        model = Events
-        fields = ['id','event_name','approval_status','registered_on']
-        read_only_fields = ['registered_on']
+        model = EventRegistration
+        fields = ['id','event','event_name','event_attendee','approval_status','registered_on']
+        read_only_fields = ['registered_on','approval_status','event_attendee']
     
     def get_event_name(self, obj):
         return obj.event.event_name
@@ -31,5 +31,6 @@ class EventsRegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         request = self.context.get('request')
         if request and request.user.is_authenticated:
-            validated_data['event_attendee'] = request.user 
+            validated_data['event_attendee'] = request.user
+            validated_data['approval_status'] = 'not_approved'
         return super().create(validated_data)

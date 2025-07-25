@@ -126,17 +126,31 @@ class EventRegisterAPIView(APIView):
     required_permission = 'rsvp_events'
 
     def post(self, request): 
-        serializer = EventsSerializer(data=request.data, context={'request': request})
+        serializer = EventsRegistrationSerializer(data=request.data, context={'request': request})
 
         if serializer.is_valid():
+            event= serializer.validated_data['event']
+
+            current_registrations=EventRegistration.objects.filter(event=event).count()
+            available_seats=event.available_seats
+            seats_left=available_seats-current_registrations
+
+            if current_registrations>available_seats:
+                return Response({
+                'result_code':0,
+                'message': 'Sorry, No more seats left.',
+                'data': {}
+            }, status=status.HTTP_400_BAD_REQUEST)
+    
             serializer.save()  
             return Response({
                 'result_code':0,
-                'message': 'Event created successfully',
-                'data': serializer.data
+                'message': 'You have successfully registered for this event',
+                'seats_left':seats_left,
+                'data': serializer.data,
             }, status=status.HTTP_201_CREATED)
         return Response({
                 'result_code':1,
-                'message': 'The Event could not be created',
+                'message': 'Registration failed',
                 'data': serializer.errors
             }, status=status.HTTP_400_BAD_REQUEST)
