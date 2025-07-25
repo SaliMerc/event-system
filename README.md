@@ -286,9 +286,9 @@ API ENDPOINTS
         "event_attendee": 8,
         "approval_status": "not_approved",
         "registered_on": "2025-07-25T12:48:57.454751Z"
-    }
-   }
-      ```
+          }
+     }
+      ```  
 
 
 
