@@ -120,8 +120,42 @@ API ENDPOINTS
            "email": "string",
            "first_name": "string",
            "last_name": "string",
-           "role": "string,
+           "role": "string",
        }
+      ```
+2. Create event
+
+   Endpoint: /api/events/create-event/  
+   Method: POST  
+   Headers:  
+   Content-Type: form-data  
+   
+   Request Body:  
+      ```json
+      {
+        "id": "integer",
+        "event_name": "Parteeeey",
+        "event_location": "Nairobi",
+        "event_date": "2025-08-11T02:03:46.145000Z",
+        "event_organiser_name": "katy perry",
+        "available_seats": 40,
+      }
+      ```
+   Response:  
+      ```json
+       {
+    "result_code": 0,
+    "message": "Event created successfully",
+    "data": {
+        "id": 7,
+        "event_name": "Parteeeey",
+        "event_location": "Nairobi",
+        "event_date": "2025-08-11T02:03:46.145000Z",
+        "event_organiser_name": "katy perry",
+        "available_seats": 40,
+        "created_at": "2025-07-25T13:29:03.653890Z"
+    }
+}
       ```
 
 
