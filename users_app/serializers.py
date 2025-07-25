@@ -5,17 +5,13 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = CustomUser
-        fields = '__all__'
+        fields = ['id', 'username', 'email','first_name','last_name','role','is_active']
+
+    def create(self, validated_data):
+        validated_data.pop('is_active', None)
+        user=CustomUser.objects.create_user(**validated_data, is_active=True)
+        return user
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(write_only=True)
-
-    def validate(self, attrs):
-        email = attrs.get('email')
-        password = attrs.get('password')
-
-        if not email or not password:
-            raise serializers.ValidationError("Email and password are required.")
-
-        return attrs

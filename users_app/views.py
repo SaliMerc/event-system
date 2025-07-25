@@ -23,12 +23,11 @@ class UserRegisterView(APIView):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
-            user.set_password(request.data.get('password', 'defaultpassword'))
-            user.is_active = True
             if user.role == 'organiser':
                 assign_role(user, EventOrganiserRole)
             elif user.role == 'attendee':
                 assign_role(user, EventAttendeeRole)
+            user.set_password(request.data.get('password'))
             user.save()
 
             return Response({
@@ -51,6 +50,7 @@ class UserLoginView(APIView):
         if serializer.is_valid():
             email = serializer.validated_data['email']
             password = serializer.validated_data['password']
+
             try:
                 user = User.objects.get(email=email)
                 if user.check_password(password):
@@ -62,7 +62,7 @@ class UserLoginView(APIView):
                         "data": {
                             "refresh": str(refresh),
                             "access": str(access),
-                            'user' : UserSerializer(user, context={'request': request}).data
+                            'user' : UserSerializer(user).data
                         }
                     }, status=status.HTTP_200_OK)
                 else:

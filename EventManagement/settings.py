@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     #Rest framework
     'rest_framework',
     'rolepermissions',
+    'rest_framework_simplejwt',
 
     #swagger
     'drf_yasg',
