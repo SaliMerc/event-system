@@ -1,4 +1,4 @@
-Event Management System
+Event Management System  
 An event maangement system that enables event organisers to:
  create, update, delete events and also approve registered attendees.
 
