@@ -8,7 +8,7 @@ Tech Stack
 
 - Backend Framework: Django 4.x
 - API Framework: Django REST Framework (DRF)
-- Database: SQLite
+- Database: MYSQL
 - Authentication: Token Authentication (JWT)
 - Validation: Django model validators + DRF serializers
 - Testing: Postman collection
@@ -133,7 +133,6 @@ API ENDPOINTS
    Request Body:  
       ```json
       {
-        "id": "integer",
         "event_name": "Parteeeey",
         "event_location": "Nairobi",
         "event_date": "2025-08-11T02:03:46.145000Z",
@@ -188,7 +187,7 @@ API ENDPOINTS
         "available_seats": 40,
         "created_at": "2025-07-25T13:29:03.653890Z"
     }
-}
+   }
       ```  
 5. Delete an event
 
@@ -202,7 +201,7 @@ API ENDPOINTS
        {
     "result_code": 0,
     "message": "Event deleted successfully"
-}
+       }
       ```  
 
 6. Approve a registered attendee
@@ -228,8 +227,8 @@ API ENDPOINTS
         "event_attendee": 8,
         "approval_status": "approved"
     }
-} 
-      ```
+   } 
+      ```  
 
 7. View all events  
 
