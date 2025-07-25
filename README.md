@@ -154,7 +154,7 @@ API ENDPOINTS
         "available_seats": 40,
         "created_at": "2025-07-25T13:29:03.653890Z"
     }
-}
+   }
       ```  
 
 4. Update an event
