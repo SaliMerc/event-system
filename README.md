@@ -93,7 +93,7 @@ API ENDPOINTS
        "access": "string",
        "refresh": "string"
       }
-      ```
+      ```  
 2. User signup
 
    Endpoint: /api/users/create/  
@@ -122,7 +122,7 @@ API ENDPOINTS
            "last_name": "string",
            "role": "string",
        }
-      ```
+      ```  
 3. Create event
 
    Endpoint: /api/events/create-event/  
@@ -156,7 +156,7 @@ API ENDPOINTS
         "created_at": "2025-07-25T13:29:03.653890Z"
     }
 }
-      ```
+      ```  
 
 4. Update an event
 
@@ -189,7 +189,7 @@ API ENDPOINTS
         "created_at": "2025-07-25T13:29:03.653890Z"
     }
 }
-      ```
+      ```  
 5. Delete an event
 
    Endpoint: /api/events/delete-event/id/  
@@ -203,7 +203,7 @@ API ENDPOINTS
     "result_code": 0,
     "message": "Event deleted successfully"
 }
-      ```
+      ```  
 
 6. Approve a registered attendee
 
@@ -231,7 +231,7 @@ API ENDPOINTS
 } 
       ```
 
-7. View all events
+7. View all events  
 
    Endpoint: /api/events/event-list/  
    Method: GET 
@@ -259,9 +259,9 @@ API ENDPOINTS
    
       ]
         }
-      ```
+      ```  
 
-   3. RSVP An event
+   8. RSVP An event
 
    Endpoint: /api/events/event-rsvp/  
    Method: POST  
