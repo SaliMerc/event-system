@@ -94,7 +94,7 @@ API ENDPOINTS
        "refresh": "string"
       }
       ```
-User signup
+2. User signup
 
    Endpoint: /api/users/create/  
    Method: POST  
