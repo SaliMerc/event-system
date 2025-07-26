@@ -7,55 +7,73 @@ from rest_framework import status
 
 from django.shortcuts import get_object_or_404
 
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from users_app.permissions import HasRolePermission
 
 from events_app.models import *
 from events_app.serializers import *
 
+from rest_framework.pagination import PageNumberPagination
+from django.db.models import Q
+
+
+"""Reusable pagination class"""
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10  
+    page_size_query_param = 'page_size'
+    max_page_size = 100 
+
 """Get all the the events"""
 class EventListAPIView(APIView):
-    permission_classes = [HasRolePermission, IsAuthenticated]
-    required_permission = 'view_all_events'
+    permission_classes = [AllowAny]
+    pagination_class=StandardResultsSetPagination
 
     def get(self, request):
-        now = timezone.now()
-        period = request.query_params.get('period', None)
+        period = request.query_params.get('period')
+        location = request.query_params.get('location')
+        keywords = request.query_params.get('keywords')
 
+        now = timezone.now()
         start = (now - timedelta(days=now.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
         end = start + timedelta(days=7)
-
-        events = Events.objects.filter(created_at__gte=start, created_at__lt=end).select_related('event_organiser').order_by('-created_at')
 
         if period == 'today':
             start = now.replace(hour=0, minute=0, second=0, microsecond=0)
             end = start + timedelta(days=1)
-            events = events.filter(created_at__gte=start, created_at__lt=end)
-
         elif period == 'week':
             start = (now - timedelta(days=now.weekday())).replace(hour=0, minute=0, second=0, microsecond=0)
             end = start + timedelta(days=7)
-            events = events.filter(created_at__gte=start, created_at__lt=end)
-
         elif period == 'month':
             start = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
-            if start.month == 12:
-                end = start.replace(year=start.year + 1, month=1)
-            else:
-                end = start.replace(month=start.month + 1)
-            events = events.filter(created_at__gte=start, created_at__lt=end)
-
+            end = (start.replace(month=start.month + 1) 
+                   if start.month < 12 else start.replace(year=start.year + 1, month=1))
         elif period == 'year':
             start = now.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
             end = start.replace(year=start.year + 1)
-            events = events.filter(created_at__gte=start, created_at__lt=end)
 
-        serializer = EventsSerializer(events, many=True, context={'request': request})
-        return Response({
-                'result_code':0,
-                'message': 'Events retrieved successfully',
-                'data': serializer.data
-            }, status=status.HTTP_200_OK)
+        events = Events.objects.filter(created_at__gte=start, created_at__lt=end).select_related('event_organiser')
+
+        if location:
+            events = events.filter(event_location__icontains=location)
+
+        if keywords:
+            events = events.filter
+            (Q(event_name__icontains=keywords)|
+             Q(event_location__icontains=keywords)|
+             Q(event_date__icontains=keywords)|
+             Q(event_organiser__first_name__icontains=keywords)|
+             Q(event_organiser__last_name__icontains=keywords))
+
+        paginator = self.pagination_class()
+        paginated_events = paginator.paginate_queryset(events.order_by('-created_at'), request)
+
+        serializer = EventsSerializer(paginated_events, many=True, context={'request': request})
+
+        return paginator.get_paginated_response({
+            'result_code': 0,
+            'message': 'Events retrieved successfully',
+            'data': serializer.data
+        })
 
 """To allow organisers to create events"""
 class EventCreateAPIView(APIView):
